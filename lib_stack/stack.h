@@ -3,6 +3,8 @@
 #ifndef LIB_EASY_EXAMPLE_EASY_EXAMPLE_H_
 #define LIB_EASY_EXAMPLE_EASY_EXAMPLE_H_
 
+#include <stdexcept>
+
 template<class T>
 class Stack {
 	T* _data;
@@ -51,7 +53,7 @@ Stack<T>::Stack(const Stack<T>& A) {
 
 template<class T>
 bool Stack<T>::empty() const noexcept {
-	return (- 1 == _top)
+	return (-1 == _top);
 }
 
 template<class T>
@@ -70,7 +72,7 @@ void Stack<T>::push(const T& A) {
 		_data[++_top] = A;
 
 	else
-		throw std::logik_error(" overflow");
+		throw std::logic_error(" overflow");
 }
 
 template<class T>
@@ -78,16 +80,16 @@ void Stack<T>::pop() {
 	if (!empty())
 		--_top;
 	else
-		throw std::logik_error(" overflow");
+		throw std::logic_error(" overflow");
 }
 
 template<class T>
 T& Stack<T>::top() {
-	return _data[top];
+	return _data[_top];
 }
 
 template<class T>
 const T& Stack<T>::top() const{
-	return _data[top];
+	return _data[_top];
 }
 #endif  // LIB_EASY_EXAMPLE_EASY_EXAMPLE_H_
