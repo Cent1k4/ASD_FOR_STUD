@@ -12,16 +12,16 @@ class Queue
 public:
 	Queue(size_t col = 10);
 	~Queue();
-
+	T& front() const;
 	size_t get_count() const noexcept;
 	void push(const T&);
 	void pop();
 	bool isEmpty() const noexcept;
-	bool isFull() const;
+	bool isFull() const noexcept;
 };
 
 template <class T>
-Queue<T>::Queue(size_t col) : _size(col), _data(new T[_size]), _front(-1), _count(0){}
+Queue<T>::Queue(size_t col) : _size(col), _data(new T[col]), _front(0), _count(0){}
 
 template <class T>
 Queue<T>::~Queue() {
@@ -36,9 +36,9 @@ size_t Queue<T>::get_count() const noexcept {
 template <class T>
 size_t Queue<T>::get_back_index() const {
 	if (isEmpty()) {
-		return -1;
+		return 0;
 	}
-	return (_front + _count - 1) % _size;
+	return (_front + _count) % _size;
 }
 
 template <class T>
@@ -47,7 +47,7 @@ bool Queue<T>::isEmpty() const noexcept {
 }
 
 template <class T>
-bool Queue<T> ::isFull()const noexcept {
+bool Queue<T> ::isFull() const noexcept {
 	return _count == _size;
 }
 
@@ -57,7 +57,7 @@ void Queue<T>::push(const T& val) {
 		throw std::logic_error("queue overflow");
 	}
 	else {
-		_data[get_back_index() + 1] = val;
+		_data[get_back_index()] = val;
 		_count++;
 	}
 }
@@ -71,6 +71,14 @@ void Queue<T>::pop() {
 		_front = (_front + 1) % _size;
 		_count--;
 	}
+}
+
+template <class T>
+T& Queue<T>::front() const {
+	if (isEmpty())
+		throw std::logic_error("Queue is empty");
+	else
+		return _data[_front];
 }
 
 #endif // LIB_QUEUE_QUEUE_H_
