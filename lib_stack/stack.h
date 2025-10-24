@@ -13,7 +13,7 @@ class Stack {
 
 public:
 	Stack();
-	Stack(int size = 20);
+	Stack(int size);
 	Stack(const Stack<T>&);
 
 	bool empty() const noexcept;
@@ -39,7 +39,7 @@ template<class T>
 void Stack<T>::clear() {
 	_size = 0;
 	_top = -1;
-	delete[](*this);
+	delete[] _data;
 }
 
 template<class T>
@@ -85,11 +85,15 @@ void Stack<T>::pop() {
 
 template<class T>
 T& Stack<T>::top() {
+	if (empty())
+		throw std::logic_error("stack empty");
 	return _data[_top];
 }
 
 template<class T>
 const T& Stack<T>::top() const{
+	if (empty())
+		throw std::logic_error("stack empty");
 	return _data[_top];
 }
 #endif  // LIB_EASY_EXAMPLE_EASY_EXAMPLE_H_
