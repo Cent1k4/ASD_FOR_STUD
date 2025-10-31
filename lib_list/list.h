@@ -23,7 +23,8 @@ public:
 	~List();
 
 	bool is_empty();
-	int find(const T&);
+	int find_pos(const T&);
+	Node<T>* find_nod(const T&);
 	void pop_front();
 	void push_front(const T&) noexcept;
 	void pop_back();
@@ -34,7 +35,63 @@ public:
 	void insert(Node<T>* A, const T&);
 	const T& operator [](size_t) const;
 	T& operator [](size_t);
+
+	class Iterator {
+		Node<T>* _current;
+	public:
+		Iterator();
+		Iterator(Node<T>* poc);
+		Iterator(const Iterator& A);
+
+		Iterator& operator =(const Iterator& A);
+		T& operator*();
+		bool operator != (const Iterator& A);
+		Iterator operator ++(int);
+		Iterator operator ++();
+	};
+
+	Iterator begin() { return Iterator(_head); }
+	Iterator end() { return Iterator(); }
+	typedef Iterator iterator;
 };
+
+template<class T>
+List<T>::Iterator::Iterator() : _current(nullptr) {}
+
+template<class T>
+List<T>::Iterator::Iterator(Node<T>* poc) : _current(poc) {}
+
+template<class T>
+List<T>::Iterator::Iterator(const Iterator& A) : _current(A._current) {}
+
+template<class T>
+typename List<T>::Iterator& List<T>::Iterator::operator =(const Iterator& A) {
+	(*this)->_current = A._current;
+	return (*this);
+}
+
+template<class T>
+T& List<T>::Iterator::operator*() {
+	return _current->_val;
+}
+
+template<class T>
+bool List<T>::Iterator::operator != (const Iterator& A) {
+	return _current->_next != A._current->_next;
+}
+
+template<class T>
+typename List<T>::Iterator List<T>::Iterator::operator ++(int) {
+	Iterator tmp(*this);
+	_current = _current->_next;
+	return tmp;
+}
+
+template<class T>
+typename List<T>::Iterator List<T>::Iterator::operator ++() {
+	_current = _current->_next;
+	return (*this);
+}
 
 template<class T>
 T& List<T>::operator [](size_t pos) {
@@ -258,7 +315,7 @@ void List<T>::insert(Node<T>* A, const T& val) {
 }
 
 template<class T>
-int List<T>::find(const T& val) {
+int List<T>::find_pos(const T& val) {
 	if (is_empty())
 		throw std::logic_error("list is empty");
 
@@ -273,5 +330,24 @@ int List<T>::find(const T& val) {
 	else {
 		std::cout << "element not find" << std::endl;
 		return -1;
+	}
+}
+
+template<class T>
+Node<T>* List<T>::find_nod(const T&) {
+	if (is_empty())
+		throw std::logic_error("list is empty");
+
+	size_t i = 0;
+	Node<T>* B = _head;
+	while (B->_val != val && B->_next != nullptr) {
+		B = B->_next;
+		i++;
+	}
+	if (B->_val == val)
+		return B;
+	else {
+		std::cout << "element not find" << std::endl;
+		return nullptr;
 	}
 }

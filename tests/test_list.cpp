@@ -45,26 +45,26 @@ TEST(Test_List, test_find1) {
 	A.push_back(3);
 	A.push_back(2);
 	A.push_back(1);
-	EXPECT_EQ(A.find(3), 0);
-	EXPECT_EQ(A.find(2), 1);
-	EXPECT_EQ(A.find(1), 2);
+	EXPECT_EQ(A.find_pos(3), 0);
+	EXPECT_EQ(A.find_pos(2), 1);
+	EXPECT_EQ(A.find_pos(1), 2);
 }
 
 TEST(Test_List, test_find2) {
 	List<int>A;
-	ASSERT_ANY_THROW(A.find(3));
+	ASSERT_ANY_THROW(A.find_pos(3));
 }
 
 TEST(Test_List, test_find3) {
 	List<int>A;
 	A.push_back(2);
-	ASSERT_NO_THROW(A.find(3));
+	ASSERT_NO_THROW(A.find_pos(3));
 }
 
 TEST(Test_List, test_find4) {
 	List<int>A;
 	A.push_back(2);
-	EXPECT_EQ(A.find(3), -1);
+	EXPECT_EQ(A.find_pos(3), -1);
 }
 
 TEST(Test_List, test_pop_front1) {
@@ -252,4 +252,38 @@ TEST(Test_List, test_erase_Note_1_2) {
 	Node<int>* B1 = new Node<int>(1, nullptr);
 	Node<int>* B2 = new Node<int>(1, B1);
 	ASSERT_ANY_THROW(A.erase(B2));
+}
+
+TEST(Test_Ierator, test_read) {
+	List<int>A;
+	A.push_front(3);
+	A.push_front(2);
+	A.push_front(1);
+	List<int>::Iterator it = A.begin();
+	for (int i = 1; i < 4; i++) {
+		EXPECT_EQ(*it, i);
+		it++;
+	}
+}
+
+TEST(Test_Ierator, test_ne_read) {
+	List<int>A;
+	A.push_front(1);
+	A.push_front(2);
+	A.push_front(3);
+	List<int>::Iterator it = A.begin();
+	for (int i = 1; i < 4; i++) {
+		*it = i;
+		it++;
+	}
+	List<int>::Iterator ie = A.begin();
+	for (int i = 1; i < 4; i++) {
+		EXPECT_EQ(*ie, i);
+		ie++;
+	}
+}
+
+TEST(Test_Ierator, test_0) {
+	List<int>A;
+	ASSERT_NO_THROW(List<int>::Iterator it = A.begin());
 }
