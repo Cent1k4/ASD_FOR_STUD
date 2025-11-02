@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../lib_list/list.h"
+#include "../lib_doubly_linked_list/doubly_linked_list.h"
 
 TEST(Test_List, test_constructor1) {
 	ASSERT_NO_THROW(List<int> A());
@@ -286,4 +287,55 @@ TEST(Test_Ierator, test_ne_read) {
 TEST(Test_Ierator, test_0) {
 	List<int>A;
 	ASSERT_NO_THROW(List<int>::Iterator it = A.begin());
+}
+
+TEST(Test_Ierator_doublelist, test_read) {
+	DoubleList<int> A;
+	A.push_front(3);
+	A.push_front(2);
+	A.push_front(1);
+	DoubleList<int>::Iterator it = A.begin();
+	for (int i = 1; i < 4; i++) {
+		EXPECT_EQ(*it, i);
+		it++;
+	}
+}
+
+TEST(Test_Ierator_doublelist, test_ne_read) {
+	DoubleList<int>A;
+	A.push_front(1);
+	A.push_front(2);
+	A.push_front(3);
+	DoubleList<int>::Iterator it = A.begin();
+	for (int i = 1; i < 4; i++) {
+		*it = i;
+		it++;
+	}
+	DoubleList<int>::Iterator ie = A.begin();
+	for (int i = 1; i < 4; i++) {
+		EXPECT_EQ(*ie, i);
+		ie++;
+	}
+}
+
+TEST(Test_Ierator_doublelist, test_0) {
+	DoubleList<int>A;
+	ASSERT_NO_THROW(DoubleList<int>::Iterator it = A.begin());
+}
+
+TEST(Test_Ierator_doublelist, test_ne_read1) {
+	DoubleList<int>A;
+	A.push_front(1);
+	A.push_front(2);
+	A.push_front(3);
+	DoubleList<int>::Iterator it = A.begin();
+	for (int i = 1; i < 4; i++) {
+		*it = i;
+		it++;
+	}
+	DoubleList<int>::Iterator ie = A.end();
+	for (int i = 4; i < 1; i++) {
+		EXPECT_EQ(*ie, i);
+		ie--;
+	}
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 
 
@@ -5,34 +6,38 @@ template<class T>
 struct Node {
 	T _val;
 	Node* _next;
-	Node(const T, Node<T>*);
+	Node* _prev;
+	Node(const T& val, Node* next = nullptr, Node* prev = nullptr);
 };
 
 template<class T>
-Node<T>::Node(const T val, Node<T>* next) : _val(val), _next(next) {}
+Node<T>::Node(const T& val, Node* next, Node* prev) : _val(val), _next(next), _prev(prev) {}
 
 
 template <class T>
 class List
 {
-	Node<T> *_head, *_tail;
+protected:
 	size_t count = 0;
+	Node<T>* _head, * _tail;
+
+
 public:
 	List();
 	List(const List&);
-	~List();
+	virtual ~List();
 
 	bool is_empty();
 	int find_pos(const T&);
 	Node<T>* find_nod(const T&);
-	void pop_front();
-	void push_front(const T&) noexcept;
-	void pop_back();
-	void push_back(const T&) noexcept;
+	virtual void pop_front();
+	virtual void push_front(const T&) noexcept;
+	virtual void pop_back();
+	virtual void push_back(const T&) noexcept;
 	void erase(int);
-	void insert(int, const T&);
+	virtual void insert(int, const T&);
 	void erase(Node<T>* A);
-	void insert(Node<T>* A, const T&);
+	virtual void insert(Node<T>* A, const T&);
 	const T& operator [](size_t) const;
 	T& operator [](size_t);
 
@@ -48,6 +53,8 @@ public:
 		bool operator != (const Iterator& A);
 		Iterator operator ++(int);
 		Iterator operator ++();
+		Iterator operator --(int);
+		Iterator operator--();
 	};
 
 	Iterator begin() { return Iterator(_head); }
@@ -66,7 +73,7 @@ List<T>::Iterator::Iterator(const Iterator& A) : _current(A._current) {}
 
 template<class T>
 typename List<T>::Iterator& List<T>::Iterator::operator =(const Iterator& A) {
-	(*this)->_current = A._current;
+	this->_current = A._current;
 	return (*this);
 }
 
@@ -91,6 +98,19 @@ template<class T>
 typename List<T>::Iterator List<T>::Iterator::operator ++() {
 	_current = _current->_next;
 	return (*this);
+}
+template<class T>
+typename List<T>::Iterator List<T>::Iterator::operator--() {
+	if (_current) 
+		_current = _current->_prev;
+	return *this;
+}
+
+template<class T>
+typename List<T>::Iterator List<T>::Iterator::operator --(int) {
+	Iterator tmp(*this);
+	_current = _current->_prev;
+	return tmp;
 }
 
 template<class T>
@@ -303,9 +323,9 @@ template<class T>
 void List<T>::insert(Node<T>* A, const T& val) {
 	if (is_empty())
 		throw std::logic_error("list is empty");
-	if (A == nullptr)
+	else if (A == nullptr)
 		throw std::logic_error("A = nullptr");
-	if (A == _tail)
+	else if (A == _tail)
 		push_back(val);
 	else {
 		Node<T>* B = new Node<T>(val, A->_next);
@@ -334,18 +354,17 @@ int List<T>::find_pos(const T& val) {
 }
 
 template<class T>
-Node<T>* List<T>::find_nod(const T&) {
+Node<T>* List<T>::find_nod(const T& val) {
 	if (is_empty())
 		throw std::logic_error("list is empty");
 
-	size_t i = 0;
 	Node<T>* B = _head;
-	while (B->_val != val && B->_next != nullptr) {
+	while (B->_val != val && B->_next != nullptr) 
 		B = B->_next;
-		i++;
-	}
+	
 	if (B->_val == val)
 		return B;
+
 	else {
 		std::cout << "element not find" << std::endl;
 		return nullptr;
