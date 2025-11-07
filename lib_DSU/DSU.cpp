@@ -23,12 +23,13 @@ int DSU::find(int val) {
 
 void DSU::unite(int val1, int val2) {
 	if (val1 != val2) {
-		if (_rank[find(val1)] < _rank[find(val2)])
-			_parent[find(val1)] = find(val2);
+		int a = find(val1), b = find(val2);
+		if (_rank[a] < _rank[b])
+			_parent[a] = b;
 		else {
-			if (_rank[find(val1)] == _rank[find(val2)])
-				_rank[val1]++;
-			_parent[find(val2)] = find(val1);
+			if (_rank[a] == _rank[b])
+				_rank[a]++;
+			_parent[b] = a;
 		}
 	}
 }
