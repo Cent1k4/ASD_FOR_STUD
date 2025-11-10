@@ -33,3 +33,8 @@ void DSU::unite(int val1, int val2) {
 		}
 	}
 }
+
+int DSU::count() {
+	std::unordered_set<int> Set(_parent, _parent + _size);
+	return Set.size();
+}
