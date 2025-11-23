@@ -1,5 +1,4 @@
 #include"../lib_calculator/math_func.h"
-const double PI = 3.141592653589793;
 
 int fuct(int val) {
 	if (val == 0)
@@ -12,49 +11,104 @@ int fuct(int val) {
 
 
 double my_sin(double val) {
-	double val_radians = val * (PI / 180);
-	double rez = 0;
-	for (int i = 0; i < 13; i++) {
-		rez += (pow(-1, i) * pow(val_radians, 2 * i + 1) )/ fuct(2 * i + 1);
+	val = val * M_PI / 180.0;
+	val = fmod(val, 2 * M_PI);
+	if (val > M_PI) 
+		val -= 2 * M_PI;
+
+	else if (val < -M_PI) 
+		val += 2 * M_PI;
+
+	double rez = 0, temp = val, two_val = val*val;
+	for(int i = 0; i < 10; i++){
+		rez += temp;
+		temp *= (-two_val) / ((2 * i + 2) * (2 * i + 3));
 	}
 	return rez;
 }
 
 
 double my_cos(double val) {
-	double rez = 0;
-	for (int i = 0; i < 6; i++) {
-		rez += (pow(-1, i) * pow(val, 2 * i)) / fuct(2 * i);
+	val = val * M_PI / 180.0;
+	val = fmod(val, 2 * M_PI);
+	if (val > M_PI)
+		val -= 2 * M_PI;
+
+	else if (val < -M_PI)
+		val += 2 * M_PI;
+
+	double rez = 0, temp = 1, two_val = val * val;
+	for (int i = 0; i < 10; i++) {
+		rez += temp;
+		temp *= (-two_val) / ((2 * i + 1) * (2 * i + 2));
 	}
 	return rez;
 }
 
 
 double my_tg(double val) {
-	if (my_cos(val) != 0)
-		return my_sin(val) / my_cos(val);
+	double eps = 0.0000001, co = my_cos(val);
+	if (fabs(co) < eps)
+		throw std::logic_error("cos(val) = 0");
+	else
+		return my_sin(val) / co;
 }
 
 
-double my_ln(double val){
-	if (fabs(val - 1) >= 1)
-		return log(val);
-	double rez = 0;
-	for (int i = 1; i < 6; i++) {
-		rez += pow(-1, i + 1) * (pow((val - 1), i) / i);
+double my_ñtg(double val) {
+	double eps = 0.0000001, si = my_sin(val);
+	if (fabs(si) < eps)
+		throw std::logic_error("sin(val) = 0");
+	else
+		return my_cos(val) / si;
+}
+
+
+double my_ln(double val) {
+	if (val <= 0) 
+		throw std::logic_error("ln(x) x <= 0");
+	
+
+	int power = 0;
+	double normalized = val;
+	while (normalized > 2) {
+		normalized /= 2;
+		power++;
 	}
-	return rez;
+
+	while (normalized < 0) {
+		normalized *= 2;
+		power--;
+	}
+
+	double mini_val = normalized - 1, rez = 0, term = mini_val;
+	for (int i = 1; i <= 10; i++) {
+		rez += term / i;
+		term *= -mini_val;
+	}
+
+	return rez + power * log(2);
 }
 
 
 double my_sqrt(double val) {
-	if (fabs(val - 1) >= 1)
+	if (val < 0)
+		throw std::logic_error("sqrt(x) x <= 0");
+
+	else if (val == 0)
+		return 0;
+
+	else if (val == 1)
+		return 1;
+
+	else if (val >= 2 || val < 0)
 		return sqrt(val);
-	double rez = 0;
-	for (int n = 0; n < 10; n++) {
-		double numerator = pow(-1, n) * fuct(2 * n);
-		double denominator = (1 - 2 * n) * pow(fuct(n), 2) * pow(4, n);
-		rez += (numerator / denominator) * pow(val - 1, n);
+
+	double rez = 0.0, temp = 1;
+	val--;
+	for (int i = 0; i < 10; i++) {
+		rez += temp;
+		temp *= val * ((0.5 - i) / (i + 1));
 	}
 	return rez;
 }
