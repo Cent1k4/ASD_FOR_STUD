@@ -17,6 +17,6 @@ double my_sqrt(double);
 
 double my_tg(double);
 
-double my_ñtg(double);
+double my_ctg(double);
 
 #endif // !LIB_CALCULATOR_MATH_FUNC_H

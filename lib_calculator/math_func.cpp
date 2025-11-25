@@ -55,7 +55,7 @@ double my_tg(double val) {
 }
 
 
-double my_ñtg(double val) {
+double my_ctg(double val) {
 	double eps = 0.0000001, si = my_sin(val);
 	if (fabs(si) < eps)
 		throw std::logic_error("sin(val) = 0");

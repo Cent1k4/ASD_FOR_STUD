@@ -3,14 +3,16 @@
 
 bool chek_breckets(std::string A) {
 	size_t raz = A.size();
-	if (raz == 0) {return false;}
+	int i = 0;
+	if (raz == 0) 
+		 throw i; 
 
 	Stack<char> S(raz);
-	for (int i = 0; i < raz; i++) {
+	for (i; i < raz; i++) {
 		if (A[i] == ' ')
 			continue;
 
-		else if (A[i] == '(' || A[i] == '{' || A[i] == '[' || A[i] == ')' || A[i] == '}' || A[i] == ']') {
+		else if (A[i] == '(' || A[i] == '{' || A[i] == '[' || A[i] == ')' || A[i] == '}' || A[i] == ']' || A[i] == '|') {
 
 			if (!S.empty()) {
 				if (A[i] == ')' && S.top() == '(') {
@@ -25,14 +27,21 @@ bool chek_breckets(std::string A) {
 					S.pop();
 					continue;
 				}
+				else if (A[i] == '|' && S.top() == '|') {
+					S.pop();
+					continue;
+				}
 			}
-			else if (A[i] == ')' || A[i] == '}' || A[i] == ']')
-				return false;
+			else if (A[i] == ')' || A[i] == '}' || A[i] == ']' || A[i] == '|')
+				throw i;
 
 			S.push(A[i]);
 		}
 		else
-			return false;
+			continue;
 	}
-	return S.empty();
+	if (S.empty())
+		return true;
+	else
+		throw i;
 }

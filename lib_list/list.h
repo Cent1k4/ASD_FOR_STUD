@@ -1,5 +1,6 @@
+#ifndef LIB_LIST_LIST_H
+#define LIB_LIST_LIST_H
 #include <iostream>
-
 
 template<class T>
 struct Node {
@@ -351,3 +352,4 @@ Node<T>* List<T>::find_nod(const T&) {
 		return nullptr;
 	}
 }
+#endif // !LIB_LIST_LIST_H

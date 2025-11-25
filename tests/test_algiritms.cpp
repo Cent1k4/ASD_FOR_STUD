@@ -14,17 +14,17 @@ TEST(ALGIRITHMS, string_skob1_1) {
 }
 
 TEST(ALGIRITHMS, string_skob2) {
-	EXPECT_FALSE(chek_breckets("()[]{3}()"));
+	EXPECT_TRUE(chek_breckets("()[]{3}(|8-3|)"));
 }
 
 TEST(ALGIRITHMS, string_skob3) {
-	EXPECT_FALSE(chek_breckets(""));
+	ASSERT_ANY_THROW(chek_breckets(""));
 }
 
 TEST(ALGIRITHMS, string_skob4) {
-	EXPECT_FALSE(chek_breckets("()[]}()"));
+	ASSERT_ANY_THROW(chek_breckets("()[]}()"));
 }
 
 TEST(ALGIRITHMS, string_skob5) {
-	EXPECT_FALSE(chek_breckets("([]{()})("));
+	ASSERT_ANY_THROW(chek_breckets("([]{()})("));
 }

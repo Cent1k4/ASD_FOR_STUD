@@ -67,23 +67,23 @@ TEST(TestMathFunc, test_tg_degrees5) {
 
 
 TEST(TestMathFunc, test_ctg_degrees1) {
-    EXPECT_NEAR(my_ñtg(-10), cos(-10 * M_PI / 180.0) / sin(-10 * M_PI / 180.0), EPSILON);
+    EXPECT_NEAR(my_ctg(-10), cos(-10 * M_PI / 180.0) / sin(-10 * M_PI / 180.0), EPSILON);
 }
 
 TEST(TestMathFunc, test_ctg_degrees2) {
-    EXPECT_ANY_THROW(my_ñtg(180));
+    EXPECT_ANY_THROW(my_ctg(180));
 }
 
 TEST(TestMathFunc, test_ctg_degrees3) {
-    EXPECT_NEAR(my_ñtg(90), cos(90 * M_PI / 180.0) / sin(90 * M_PI / 180.0), EPSILON);
+    EXPECT_NEAR(my_ctg(90), cos(90 * M_PI / 180.0) / sin(90 * M_PI / 180.0), EPSILON);
 }
 
 TEST(TestMathFunc, test_ctg_degrees4) {
-    EXPECT_NEAR(my_ñtg(2000), cos(2000 * M_PI / 180.0) / sin(2000 * M_PI / 180.0), EPSILON);
+    EXPECT_NEAR(my_ctg(2000), cos(2000 * M_PI / 180.0) / sin(2000 * M_PI / 180.0), EPSILON);
 }
 
 TEST(TestMathFunc, test_ctg_degrees5) {
-    EXPECT_NEAR(my_ñtg(1), cos(1 * M_PI / 180.0) / sin(1 * M_PI / 180.0), EPSILON);
+    EXPECT_NEAR(my_ctg(1), cos(1 * M_PI / 180.0) / sin(1 * M_PI / 180.0), EPSILON);
 }
 
 
