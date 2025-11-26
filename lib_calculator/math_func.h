@@ -19,4 +19,6 @@ double my_tg(double);
 
 double my_ctg(double);
 
+double my_abs(double);
+
 #endif // !LIB_CALCULATOR_MATH_FUNC_H

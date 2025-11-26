@@ -112,3 +112,9 @@ double my_sqrt(double val) {
 	}
 	return rez;
 }
+
+double my_abs(double val) {
+	if (val < 0)
+		val = -val;
+	return val;
+}

@@ -50,7 +50,7 @@ public:
     const T& front() const noexcept;
     const T& back() const noexcept;
 
-    size_t find(T Val) const;
+    int find(T Val) const;
 
     TVector& operator=(const TVector& other);
 
@@ -92,7 +92,7 @@ TVector<T>::TVector(const T* arr, size_t n, bool flage) : _size(n), _capacity(n 
 }
 
 template<class T>
-TVector<T>::TVector(size_t n, bool flage) : _size(n) {
+TVector<T>::TVector(size_t n, bool flage) : _size(0) {
     if (n > 0) {
         if (!flage)
             _capacity = n;
@@ -101,7 +101,7 @@ TVector<T>::TVector(size_t n, bool flage) : _size(n) {
             _capacity = (n + 15 - (n % 15));
 
         _data = new T[_capacity];
-        for (size_t i = 0; i < _size; i++)
+        for (int i = 0; i < _size; i++)
             _data[i] = T();
     }
     else
@@ -203,7 +203,7 @@ void TVector<T>::insert(size_t pos, T val) {
 
         for (size_t i = _size; i > pos - 1; i--)
             _data[i] = _data[i - 1];
-        _data[pos - 1] = val;
+        _data[pos] = val;
         _size++;
     }
     else
@@ -212,12 +212,12 @@ void TVector<T>::insert(size_t pos, T val) {
 
 template<class T>
 void TVector<T>::insert(T* pos, T val) {
-    size_t pos_index = pos - _data - 1;
+    size_t pos_index = pos - _data;
     if (pos >= _data && pos <= _data + _size) {
         if (full())
             regruping();
 
-        for (size_t i = _size; i > pos_index; i--)
+        for (size_t i = _size; i > pos_index - 1; i--)
             _data[i] = _data[i - 1];
         _data[pos_index] = val;
         _size++;
@@ -307,13 +307,13 @@ const T& TVector<T>::back() const noexcept {
 }
 
 template<class T>
-size_t TVector<T>::find(T Val) const {
+int TVector<T>::find(T Val) const {
     for (size_t i = 0; i < _size; i++)
     {
         if (_data[i] == Val)
-            return i + 1;
+            return i;
     }
-    throw  std::runtime_error("Value not found");
+    return -1;
 }
 
 template<class T>
@@ -337,7 +337,7 @@ T& TVector<T>::operator[](size_t pos) {
     if (pos > _size)
         throw std::out_of_range("Index out of bounds");
 
-    return _data[pos - 1];
+    return _data[pos];
 }
 
 template<class T>
@@ -345,7 +345,7 @@ const T& TVector<T>::operator[](size_t pos) const {
     if (pos > _size)
         throw std::out_of_range("Index out of bounds");
 
-    return _data[(pos - 1)];
+    return _data[pos];
 }
 
 template <class T>

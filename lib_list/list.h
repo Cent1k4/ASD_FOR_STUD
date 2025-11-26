@@ -78,7 +78,7 @@ T& List<T>::Iterator::operator*() {
 
 template<class T>
 bool List<T>::Iterator::operator != (const Iterator& A) {
-	return _current->_next != A._current->_next;
+	return _current != A._current;
 }
 
 template<class T>

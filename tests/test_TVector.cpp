@@ -20,7 +20,7 @@ TEST(TestVector, copy_constructor_test2_and_front) {
 	T1.push_back(59);
 	T1.push_back(0);
 	TVector<int> T2(T1);
-	EXPECT_EQ(T2.front(), 0);
+	EXPECT_EQ(T2.front(), 59);
 }
 
 TEST(TestVector, array_constructor_test1) {
@@ -87,7 +87,7 @@ TEST(TestVector, get_capasity_test) {
 
 TEST(TestVector, get_size_test) {
 	TVector<int> T1(4);
-	EXPECT_EQ(T1.get_size(), 4);
+	EXPECT_EQ(T1.get_size(), 0);
 }
 
 TEST(TestVector, regruping_test1) {
@@ -153,13 +153,13 @@ TEST(TestVector, pop_front_test) {
 TEST(TestVector, erase_test1) {
 	TVector<int> T1({ 1,2,3,4,5,6 });
 	T1.erase(3);
-	EXPECT_EQ(T1[3], 4);
+	EXPECT_EQ(T1[3], 5);
 }
 
 TEST(TestVector, erase_test2) {
 	TVector<int> T1({ 1,2,3,4,5,6 });
-	T1.erase(3, 2);
-	EXPECT_EQ(T1[4], 6);
+	T1.erase(2, 2);
+	EXPECT_EQ(T1[3], 6);
 }
 
 TEST(TestVector, erase_test3) {
@@ -170,13 +170,13 @@ TEST(TestVector, erase_test3) {
 TEST(TestVector, erase2_test1) {
 	TVector<int> T1({ 1,2,3,4,5,6 });
 	T1.erase(T1.get_data() + 3);
-	EXPECT_EQ(T1[3], 4);
+	EXPECT_EQ(T1[3], 5);
 }
 
 TEST(TestVector, erase2_test2) {
 	TVector<int> T1({ 1,2,3,4,5,6 });
-	T1.erase(T1.get_data() + 3, 2);
-	EXPECT_EQ(T1[4], 6);
+	T1.erase(T1.get_data() + 2, 2);
+	EXPECT_EQ(T1[3], 6);
 }
 
 TEST(TestVector, erase2_test3) {
@@ -187,13 +187,13 @@ TEST(TestVector, erase2_test3) {
 TEST(TestVector, front_test) {
 	TVector<int> T1({ 1,2,3,4,5,6 });
 	T1.front() = 9;
-	EXPECT_EQ(T1[1], 9);
+	EXPECT_EQ(T1[0], 9);
 }
 
 TEST(TestVector, back_test) {
 	TVector<int> T1({ 1,2,3,4,5,6 });
 	T1.back() = 9;
-	EXPECT_EQ(T1[6], 9);
+	EXPECT_EQ(T1[5], 9);
 }
 
 TEST(TestVector, find_test1) {
@@ -204,7 +204,7 @@ TEST(TestVector, find_test1) {
 
 TEST(TestVector, find_test2) {
 	TVector<int> T1({ 1,2,3,4,5,6 });
-	ASSERT_ANY_THROW(T1.find(10));
+	EXPECT_EQ (T1.find(10), -1);
 }
 
 TEST(TestVector, assignment_test) {
@@ -221,7 +221,7 @@ TEST(TestVector, assignment_test) {
 
 TEST(TestVector, mas_test1) {
 	TVector<int> T1({ 1,2,3,4,5,6 });
-	EXPECT_EQ(T1[4], 4);
+	EXPECT_EQ(T1[3], 4);
 }
 
 TEST(TestVector, mas_test2) {

@@ -11,7 +11,7 @@ namespace Parser {
 	void check_constants(int&, std::string&, List<Lexem>&);
 	void checking_a_operator(int&, std::string&, List<Lexem>&);
 	void checking_a_variable(int&, std::string&, List<Lexem>&);
-	void parser(std::string&, List<Lexem>&);
+	bool parser(std::string&, List<Lexem>&);
 }
 
 #endif // !LIB_CALCULATOR_PARSER_H

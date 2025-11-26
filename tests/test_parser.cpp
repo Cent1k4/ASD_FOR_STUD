@@ -46,17 +46,23 @@ TEST(TestParser, test_work_good) {
 TEST(TestParser, test_work2) {
 	std::string a = "23+9*45/9^ahd6-sin";
 	List<Lexem> F;
-	EXPECT_ANY_THROW(Parser::parser(a, F));
+	EXPECT_FALSE(Parser::parser(a, F));
 }
 
 TEST(TestParser, test_work3) {
 	std::string a = "23+9*45/9^ahd6-(sin";
 	List<Lexem> F;
-	EXPECT_ANY_THROW(Parser::parser(a, F));
+	EXPECT_FALSE(Parser::parser(a, F));
 }
 
 TEST(TestParser, test_work4) {
 	std::string a = "";
 	List<Lexem> F;
-	EXPECT_ANY_THROW(Parser::parser(a, F));
+	EXPECT_FALSE(Parser::parser(a, F));
+}
+
+TEST(TestParser, test_work5) {
+	std::string a = "23+9*45/0";
+	List<Lexem> F;
+	EXPECT_FALSE(Parser::parser(a, F));
 }

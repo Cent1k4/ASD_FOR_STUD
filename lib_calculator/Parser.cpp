@@ -32,7 +32,7 @@ namespace Parser {
 	void checking_a_operator(int& i, std::string& line, List<Lexem>& record) {
 		if (i <= line.size() && (line[i] == '+' || line[i] == '-' || line[i] == '*' || line[i] == '/' || line[i] == '^' || line[i] == '|' || line[i] == ')' || line[i] == '(')) {
 			i++;
-			if (('a' <= line[i] && line[i] <= 'z') || ('A' <= line[i] && line[i] <= 'Z') || line[i] == '_' || line[i] == '(' || line[i] == '|' || ('0' <= line[i] && line[i] <= '9')) {
+			if (('a' <= line[i] && line[i] <= 'z') || ('A' <= line[i] && line[i] <= 'Z') || line[i] == '_' || line[i] == '(' || line[i] == '|' || ('0' < line[i] && line[i] <= '9')) {
 				if (line[i - 1] == '+')
 					record.push_back(Lexem("+", Operator, 0, 1));
 
@@ -45,26 +45,24 @@ namespace Parser {
 				else if (line[i - 1] == '/')
 					record.push_back(Lexem("/", Operator, 0, 2));
 
-
 				else if (line[i - 1] == '^')
 					record.push_back(Lexem("^", Operator, 0, 3));
 
-
 				else if (line[i - 1] == '|')
-					record.push_back(Lexem("|", ABS, 0, 0));
+					record.push_back(Lexem("|", ABS, 0));
 
 				else if (line[i - 1] == ')')
-					record.push_back(Lexem(")", ClosedBrecket, 0, 5));
+					record.push_back(Lexem(")", ClosedBrecket, 0));
 
 				else if (line[i - 1] == '(')
-					record.push_back(Lexem("(", OpenBrecket, 0, 5));
+					record.push_back(Lexem("(", OpenBrecket, 0));
 			}
 
-			else if (i >= line.size() && line[i - 1] == ')')
-				record.push_back(Lexem(")", ClosedBrecket, 0, 5));
+			else if ((i >= line.size() && line[i - 1] == ')') || (line[i - 1] == ')' && line[i] == ')') || (line[i - 1] == ')' && line[i] == '|'))
+				record.push_back(Lexem(")", ClosedBrecket, 0));
 
-			else if (i >= line.size() && line[i - 1] == '|')
-				record.push_back(Lexem("|", ABS, 0, 5));
+			else if ((i >= line.size() && line[i - 1] == '|') || (line[i - 1] == '|' && line[i] == ')') || (line[i - 1] == '|' && line[i] == '|'))
+				record.push_back(Lexem("|", ABS, 0));
 
 			else
 				throw i;
@@ -103,10 +101,12 @@ namespace Parser {
 		}
 	}
 
-	void parser(std::string& line, List<Lexem>& record) {
+	bool parser(std::string& line, List<Lexem>& record) {
 		int size = line.size();
-		if (size == 0)
-			throw std::logic_error("exeple string");
+		if (size == 0) {
+			std::cout << "Exeple string" << std::endl;
+			return false;
+		}
 
 		try {
 			if (!chek_breckets);
@@ -123,7 +123,7 @@ namespace Parser {
 
 			std::cout << '|' << std::endl;
 			std::cout << "Error in function 'Parser::parse()' at " << num_erorr << " symbol: incorrect brackets" << std::endl;
-			throw std::logic_error("");
+			return false;
 		}
 
 		for (int i = 0; i < size; ) {
@@ -152,9 +152,10 @@ namespace Parser {
 
 				std::cout << '|' << std::endl;
 				std::cout << "Error in function 'Parser::parse()' at " << num_erorr << " symbol: incorrect expression" << std::endl;
-				throw std::logic_error("");
+				return false;
 				break;
 			}
 		}
+		return true;
 	}
 }
