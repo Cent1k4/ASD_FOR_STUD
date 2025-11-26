@@ -22,7 +22,7 @@ public:
 	List(const List&);
 	~List();
 
-	bool is_empty();
+	bool is_empty() const;
 	int find_pos(const T&);
 	Node<T>* find_nod(const T&);
 	void pop_front();
@@ -143,7 +143,7 @@ List<T>::~List(){
 }
 
 template<class T>
-bool List<T>::is_empty() {
+bool List<T>::is_empty()const {
 	return count == 0;
 }
 
