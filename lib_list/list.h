@@ -77,7 +77,7 @@ T& List<T>::Iterator::operator*() {
 
 template<class T>
 bool List<T>::Iterator::operator != (const Iterator& A) {
-	return _current->_next != A._current->_next;
+	return _current != A._current;
 }
 
 template<class T>
@@ -135,7 +135,7 @@ List<T>::List(const List& A){
 
 template<class T>
 List<T>::~List(){
-	while (_head != nullptr) {
+	while (!is_empty()) {
 		Node<T>* tmp = _head;
 		_head = _head->_next;
 		delete tmp;
@@ -144,7 +144,7 @@ List<T>::~List(){
 
 template<class T>
 bool List<T>::is_empty() {
-	return count == 0;
+	return _head == nullptr;
 }
 
 template<class T>
@@ -154,7 +154,7 @@ void List<T>::pop_front() {
 	Node<T>* tmp = _head;
 	_head = _head->_next;
 
-	if (_head == nullptr) {
+	if (is_empty()) {
 		_tail = nullptr;
 	}
 	count--;

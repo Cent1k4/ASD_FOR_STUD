@@ -37,11 +37,6 @@ TEST(test_stack, get_size_test) {
 	EXPECT_EQ(S.get_size(), 10);
 }
 
-TEST(test_stack, push_test1) {
-	Stack<int> S(10);
-	ASSERT_NO_THROW(S.push(6));
-}
-
 TEST(test_stack, push_test2) {
 	Stack<int> S(10);
 	S.push(3);
@@ -60,12 +55,6 @@ TEST(test_stack, pop_test1) {
 	ASSERT_ANY_THROW(S.pop());
 }
 
-TEST(test_stack, pop_test2) {
-	Stack<int> S(10);
-	S.push(4);
-	ASSERT_NO_THROW(S.pop());
-}
-
 TEST(test_stack, pop_test3) {
 	Stack<int> S(10);
 	S.push(4);
@@ -76,6 +65,9 @@ TEST(test_stack, pop_test3) {
 
 TEST(test_stack, clear_test1) {
 	Stack<int> S(10);
+	S.push(4);
+	S.push(5);
+	S.clear();
 	ASSERT_NO_THROW(S.clear());
 }
 
@@ -84,17 +76,12 @@ TEST(test_stack, clear_test2) {
 	S.push(4);
 	S.push(5);
 	ASSERT_NO_THROW(S.clear());
+	EXPECT_TRUE(S.empty());
 }
 
 TEST(test_stack, top_test1) {
 	Stack<int> S(10);
 	ASSERT_ANY_THROW(S.top());
-}
-
-TEST(test_stack, top_test2) {
-	Stack<int> S(10);
-	S.push(4);
-	ASSERT_NO_THROW(S.top());
 }
 
 TEST(test_stack, top_test3) {

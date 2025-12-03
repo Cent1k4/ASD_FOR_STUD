@@ -15,6 +15,7 @@ public:
 	Stack();
 	Stack(int size);
 	Stack(const Stack<T>&);
+	~Stack();
 
 	bool empty() const noexcept;
 	bool full() const noexcept;
@@ -30,7 +31,7 @@ public:
 };
 
 template<class T>
-Stack<T>::Stack() : _top(-1), _size(0), _data(nullptr) {}
+Stack<T>::Stack() : _top(-1), _size(10), _data(new T[10]) {}
 
 template<class T>
 Stack<T>::Stack(int size) : _top(-1), _size(size), _data(new T[size]){}
@@ -39,14 +40,13 @@ template<class T>
 void Stack<T>::clear() {
 	_size = 0;
 	_top = -1;
-	delete[] _data;
 }
 
 template<class T>
 Stack<T>::Stack(const Stack<T>& A) {
-	clear();
 	_size = A._size;
 	_top = A._top;
+	_data = new T[_size];
 	for (int i = 0; i < _size; i++)
 		_data[i] = A._data[i];
 }
@@ -96,4 +96,10 @@ const T& Stack<T>::top() const{
 		throw std::logic_error("stack empty");
 	return _data[_top];
 }
+
+template<class T>
+Stack<T>::~Stack() {
+	delete[] _data;
+}
+
 #endif  // LIB_EASY_EXAMPLE_EASY_EXAMPLE_H_
