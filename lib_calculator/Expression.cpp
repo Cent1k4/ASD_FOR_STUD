@@ -15,10 +15,11 @@ Expression::Expression(std::string A) : new_string(A), col_var(0), flag_val(fals
 void Expression::chek_var(){
 	List<Lexem>::Iterator it = polish_expression.begin();
 	while (it != polish_expression.end()) {
-		Lexem A(*it);
-		if (A.type == Variable) {
-			if ((vec_variable.find(A)) == -1) {
-				vec_variable[col_var] = A;
+		if ((*it).type == Variable) {
+			Lexem* temp = &(*it);
+
+			if ((vec_variable.find(temp)) == -1) {
+				vec_variable[col_var] = temp;
 				col_var++;
 			}
 		}
@@ -76,8 +77,8 @@ double Expression::calculate() {
 
 void Expression::set_variables() {
 	for (int i = 0; i < col_var; i++) {
-		std::cout << vec_variable[i].name << " = ";
-		std::cin >> vec_variable[i].value;
+		std::cout << (*vec_variable[i]).name << " = ";
+		std::cin >> (*vec_variable[i]).value;
 		std::cout << std::endl;
 	}
 	flag_val = true;
@@ -85,7 +86,7 @@ void Expression::set_variables() {
 
 std::string Expression::get_string() { return new_string; }
 
-TVector<Lexem>& Expression::get_varibl() { return vec_variable; }
+TVector<Lexem*> Expression::get_varibl() { return vec_variable; }
 
 int Expression::get_col_var() { return col_var; }
 

@@ -20,3 +20,10 @@ TEST(TestALL, test_work3) {
 	VIO.set_variables();
 	EXPECT_EQ(VIO.calculate(), 68);
 }
+
+TEST(TestALL, test_work4) {
+	std::string a = "sqrt(23^2)+t*45/9";
+	Expression VIO(a);
+	VIO.set_variables();
+	EXPECT_EQ(VIO.calculate(), 68);
+}

@@ -58,10 +58,10 @@ namespace Parser {
 					record.push_back(Lexem("(", OpenBrecket, 0));
 			}
 
-			else if ((i >= line.size() && line[i - 1] == ')') || (line[i - 1] == ')' && line[i] == ')') || (line[i - 1] == ')' && line[i] == '|'))
+			else if (line[i - 1] == ')' && (i >= line.size() || line[i] == ')'|| line[i] == '|' || line[i] == '+' || line[i] == '-' || line[i] == '*' || line[i] == '/' || line[i] == '^'))
 				record.push_back(Lexem(")", ClosedBrecket, 0));
 
-			else if ((i >= line.size() && line[i - 1] == '|') || (line[i - 1] == '|' && line[i] == ')') || (line[i - 1] == '|' && line[i] == '|'))
+			else if (line[i - 1] == '|' && (i >= line.size() || line[i] == ')' || line[i] == '|' || line[i] == '+' || line[i] == '-' || line[i] == '*' || line[i] == '/' || line[i] == '^'))
 				record.push_back(Lexem("|", ABS, 0));
 
 			else
