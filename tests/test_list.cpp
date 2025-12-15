@@ -259,11 +259,10 @@ TEST(Test_Ierator, test_read) {
 	A.push_front(3);
 	A.push_front(2);
 	A.push_front(1);
-	List<int>::Iterator it = A.begin();
-	for (int i = 1; i < 4; i++) {
+	int i = 1;
+	for (auto it = A.begin(); it != A.end(); it++, i++) 
 		EXPECT_EQ(*it, i);
-		it++;
-	}
+	
 }
 
 TEST(Test_Ierator, test_ne_read) {

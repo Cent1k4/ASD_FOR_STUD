@@ -1,3 +1,5 @@
+#ifndef LIB_LIST_LIST_H
+#define LIB_LIST_LIST_H
 #include <iostream>
 
 
@@ -16,15 +18,17 @@ template <class T>
 class List
 {
 	Node<T> *_head, *_tail;
-	size_t count = 0;
+	size_t count;
 public:
 	List();
 	List(const List&);
 	~List();
 
+	const size_t get_count() const noexcept;
 	bool is_empty() const;
 	int find_pos(const T&);
 	Node<T>* find_nod(const T&);
+	void ñreate_ring();
 	void pop_front();
 	void push_front(const T&) noexcept;
 	void pop_back();
@@ -51,7 +55,7 @@ public:
 	};
 
 	Iterator begin() { return Iterator(_head); }
-	Iterator end() { return Iterator(); }
+	Iterator end() { return Iterator(_tail); }
 	typedef Iterator iterator;
 };
 
@@ -66,7 +70,7 @@ List<T>::Iterator::Iterator(const Iterator& A) : _current(A._current) {}
 
 template<class T>
 typename List<T>::Iterator& List<T>::Iterator::operator =(const Iterator& A) {
-	(*this)->_current = A._current;
+	this->_current = A._current;
 	return (*this);
 }
 
@@ -77,7 +81,7 @@ T& List<T>::Iterator::operator*() {
 
 template<class T>
 bool List<T>::Iterator::operator != (const Iterator& A) {
-	return _current->_next != A._current->_next;
+	return _current != A._current;
 }
 
 template<class T>
@@ -91,6 +95,16 @@ template<class T>
 typename List<T>::Iterator List<T>::Iterator::operator ++() {
 	_current = _current->_next;
 	return (*this);
+}
+
+template<class T>
+const size_t List<T>::get_count() const noexcept {
+	return count;
+}
+
+template<class T>
+void List<T>::ñreate_ring() {
+	_tail->_next = _head;
 }
 
 template<class T>
@@ -135,7 +149,11 @@ List<T>::List(const List& A){
 
 template<class T>
 List<T>::~List(){
-	while (_head != nullptr) {
+	if (_tail && _tail->_next == _head) {
+		_tail->_next = nullptr;
+	}
+
+	while (!is_empty()) {
 		Node<T>* tmp = _head;
 		_head = _head->_next;
 		delete tmp;
@@ -143,8 +161,8 @@ List<T>::~List(){
 }
 
 template<class T>
-bool List<T>::is_empty()const {
-	return count == 0;
+bool List<T>::is_empty() const{
+	return _head == nullptr;
 }
 
 template<class T>
@@ -154,7 +172,7 @@ void List<T>::pop_front() {
 	Node<T>* tmp = _head;
 	_head = _head->_next;
 
-	if (_head == nullptr) {
+	if (is_empty()) {
 		_tail = nullptr;
 	}
 	count--;
@@ -351,3 +369,5 @@ Node<T>* List<T>::find_nod(const T&) {
 		return nullptr;
 	}
 }
+
+#endif // !LIB_LIST_LIST_H
