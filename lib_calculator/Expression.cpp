@@ -96,6 +96,7 @@ std::string Expression::get_string() { return new_string; }
 
 TVector<Lexem*>& Expression::get_varibl() { return vec_variable; }
 
+
 int Expression::get_col_var() { return col_var; }
 
 List<Lexem>& Expression::get_polish_expression() { return polish_expression; }
