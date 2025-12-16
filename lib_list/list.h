@@ -101,16 +101,23 @@ typename List<T>::Iterator List<T>::Iterator::operator ++() {
 }
 template<class T>
 typename List<T>::Iterator List<T>::Iterator::operator--() {
-	if (_current) 
+	if (_current->_prev != nullptr) {
 		_current = _current->_prev;
-	return *this;
+		return *this;
+	}
+	else
+		throw std::logic_error("prev == nullptr");
 }
 
 template<class T>
 typename List<T>::Iterator List<T>::Iterator::operator --(int) {
-	Iterator tmp(*this);
-	_current = _current->_prev;
-	return tmp;
+	if (_current->_prev != nullptr) {
+		Iterator tmp(*this);
+		_current = _current->_prev;
+		return tmp;
+	}
+	else
+		throw std::logic_error("prev == nullptr");
 }
 
 template<class T>

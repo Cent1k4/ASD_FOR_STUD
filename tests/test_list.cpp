@@ -289,6 +289,16 @@ TEST(Test_Ierator, test_0) {
 	ASSERT_NO_THROW(List<int>::Iterator it = A.begin());
 }
 
+TEST(Test_Ierator, test_01) {
+	List<int>A;
+	A.push_back(9);
+	List<int>::Iterator it = A.begin();
+	A.push_back(9);
+	it++;
+	ASSERT_ANY_THROW(--it);
+	ASSERT_ANY_THROW(it--);
+}
+
 TEST(Test_Ierator_doublelist, test_read) {
 	DoubleList<int> A;
 	A.push_front(3);
