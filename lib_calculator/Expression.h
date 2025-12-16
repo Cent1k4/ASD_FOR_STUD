@@ -8,9 +8,10 @@
 using namespace Parser;
 
 class Expression {
-	List<Lexem> expression, polish_expression;
+	List<Lexem> expression;
+	List<Lexem> polish_expression;
 	std::string new_string;
-	TVector<Lexem> vec_variable;
+	TVector<Lexem*> vec_variable;
 	void chek_var();
 	int col_var;
 	bool flag_val;
@@ -20,13 +21,16 @@ public:
 	Expression();
 
 	std::string get_string();
-	TVector<Lexem>& get_varibl();
+	TVector<Lexem*>& get_varibl();
 	int get_col_var();
 	List<Lexem>& get_polish_expression();
 
 	void set_variables();
 	double calculate();
 	bool chek();
+
+	friend std::ostream& operator<<(std::ostream&, const Expression& );
+	std::string varib ();
 };
 
 #endif // !LIB_CALCULATOR_EXPRESSION_H

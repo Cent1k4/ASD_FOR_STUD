@@ -5,7 +5,7 @@ Expression::Expression() : new_string(""), expression(), polish_expression(), ve
 
 Expression::Expression(std::string A) : new_string(A), col_var(0), flag_val(false), vec_variable(10){
 	if (Parser::parser(A, expression)) {
-		building_reverse_Polish(expression, this->polish_expression, new_string.size());
+		building_reverse_Polish(expression, polish_expression, new_string.size());
 		chek_var();
 	}
 	else 
@@ -15,10 +15,11 @@ Expression::Expression(std::string A) : new_string(A), col_var(0), flag_val(fals
 void Expression::chek_var(){
 	List<Lexem>::Iterator it = polish_expression.begin();
 	while (it != polish_expression.end()) {
-		Lexem A(*it);
-		if (A.type == Variable) {
-			if ((vec_variable.find(A)) == -1) {
-				vec_variable[col_var] = A;
+		Lexem& current_lexem = *it;
+
+		if (current_lexem.type == Variable) {
+			if ((vec_variable.find(&current_lexem)) == -1) {
+				vec_variable.push_back(& current_lexem);
 				col_var++;
 			}
 		}
@@ -76,19 +77,47 @@ double Expression::calculate() {
 
 void Expression::set_variables() {
 	for (int i = 0; i < col_var; i++) {
-		std::cout << vec_variable[i].name << " = ";
-		std::cin >> vec_variable[i].value;
-		std::cout << std::endl;
+		if ((*vec_variable[i]).value == 0) {
+			std::cout << (*vec_variable[i]).name << " = ";
+			std::cin >> (*vec_variable[i]).value;
+
+			for (int j = i + 1; j < col_var; j++) {
+				if ((*vec_variable[i]).name == (*vec_variable[j]).name)
+					(*vec_variable[j]).value = (*vec_variable[i]).value;
+			}
+
+			std::cout << std::endl;
+		}
 	}
 	flag_val = true;
 }
 
 std::string Expression::get_string() { return new_string; }
 
-TVector<Lexem>& Expression::get_varibl() { return vec_variable; }
+TVector<Lexem*>& Expression::get_varibl() { return vec_variable; }
 
 int Expression::get_col_var() { return col_var; }
 
 List<Lexem>& Expression::get_polish_expression() { return polish_expression; }
 
 bool Expression::chek() { return new_string != ""; }
+
+std::ostream& operator<<(std::ostream& os, const Expression& A) { 
+	os << A.new_string; 
+	return os;
+}
+
+std::string Expression::varib() {
+	std::string os = " ";
+	for (int i = 0; i < col_var; i++) {
+		os += (*vec_variable[i]).name;
+		os += '=';
+		if (flag_val) {
+			os += std::to_string((*vec_variable[i]).value);
+			os += ' ';
+		}
+		else
+			os += "? ";
+	}
+	return os;
+}

@@ -5,31 +5,18 @@
 
 #include <iostream>
 #include <iomanip>
-#include "../lib_easy_example/easy_example.h"
+#include "../lib_calculator/Calculator.h"
 
 int main() {
- /* int a, b;
-  float result;
-
-  a = 1; b = 4;
-
-  try {
-      result = division(a, b);
-      std::cout << a << " / " << b << " = "
-          << std::setprecision(2) << result << std::endl;
-  } catch (std::exception err) {
-      std::cerr << err.what() << std::endl;
-  }
-
-  a = 1; b = 0;
-
-  try {
-      result = division(a, b);
-      std::cout << a << " / " << b << " = "
-          << std::setprecision(2) << result << std::endl;
-  } catch (std::exception err) {
-      std::cerr << err.what() << std::endl;
-  }*/
+	bool t = true;
+	std::string str;
+	Menu A;
+	do
+	{
+		std::cout << A;
+		A.vibor();
+	} while (t);
+}
 
 
 #endif  // EASY_EXAMPLE

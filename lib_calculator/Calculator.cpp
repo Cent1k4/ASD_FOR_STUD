@@ -1,7 +1,11 @@
 #include"../lib_calculator/Calculator.h"
 
-int Menu::max_size = 0;
 int Menu::count = 0;
+
+const int MAX_ID = 5;
+const int MAX_EXPR = 30;
+const int MAX_VAL = 40;
+
 
 Menu::Menu() :_data(10) {}
 
@@ -28,13 +32,13 @@ void Menu::vibor() {
 
 		case '3':
 			t = reshen();
-			_data[t].set_variables();
+			(*_data[t]).set_variables();
 			flag = true;
 			break;
 
 		case '4':
 			t = reshen();
-			_data[t].calculate();
+			(*_data[t]).calculate();
 			flag = true;
 			break;
 
@@ -46,16 +50,10 @@ void Menu::vibor() {
 
 
 void Menu::add_Expression(std::string str) {
-	Expression temp(str);
-	if(temp.chek()){
-		for (int i = 0; i < count; i++) {
-			if (_data[i].chek())
-				_data[i] = temp;
-			else
-				continue;
-		}
-		if (max_size < str.size())
-			max_size = str.size();
+	Expression* temp = new Expression(str);
+
+	if(temp->chek()){
+		_data.push_back(temp);
 		count++;
 	}
 }
@@ -78,3 +76,27 @@ int Menu::reshen() {
 	} while (true);
 }
 
+void line(std::ostream& os) {
+	os << '+';
+	for (size_t i = 0; i < MAX_ID + MAX_EXPR + MAX_VAL + 2; i++)
+		os << '-';
+	os << '+';
+	os << std::endl;
+}
+
+void title(std::ostream& os) {
+	os << '|' << std::setw(MAX_ID) << "ID" << '|' << std::setw(MAX_EXPR) << "EXPRESSION" << '|' << std::setw(MAX_VAL) << "VARAIBLES VALUES" << '|' << std::endl;
+}
+
+std::ostream& operator<<(std::ostream& os, const Menu& A) {
+	line(os);
+	title(os);
+	line(os);
+	for (int i = 0; i < A.count; i++) {
+		Expression* exp = A._data[i];
+		os << '|' << std::setw(MAX_ID) << i << '|' << std::setw(MAX_EXPR) << (*exp) << '|' << std::setw(MAX_VAL) << exp->varib() << '|' << std::endl;
+	}
+	line(os);
+	os << std::endl << std::endl;
+	return os;
+}

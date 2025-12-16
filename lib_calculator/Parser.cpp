@@ -32,7 +32,7 @@ namespace Parser {
 	void checking_a_operator(int& i, std::string& line, List<Lexem>& record) {
 		if (i <= line.size() && (line[i] == '+' || line[i] == '-' || line[i] == '*' || line[i] == '/' || line[i] == '^' || line[i] == '|' || line[i] == ')' || line[i] == '(')) {
 			i++;
-			if (('a' <= line[i] && line[i] <= 'z') || ('A' <= line[i] && line[i] <= 'Z') || line[i] == '_' || line[i] == '(' || line[i] == '|' || ('0' < line[i] && line[i] <= '9')) {
+			if (('a' <= line[i] && line[i] <= 'z') || ('A' <= line[i] && line[i] <= 'Z') || line[i] == '_' || line[i] == '(' || line[i] == '|' || ('0' <= line[i] && line[i] <= '9')) {
 				if (line[i - 1] == '+')
 					record.push_back(Lexem("+", Operator, 0, 1));
 
@@ -57,11 +57,22 @@ namespace Parser {
 				else if (line[i - 1] == '(')
 					record.push_back(Lexem("(", OpenBrecket, 0));
 			}
+			else if ((line[i - 1] == '|' && line[i] == '-')) {
+				record.push_back(Lexem("|", ABS, 0));
+				record.push_back(Lexem("0", Constant, 0.0));
+			}
 
-			else if ((i >= line.size() && line[i - 1] == ')') || (line[i - 1] == ')' && line[i] == ')') || (line[i - 1] == ')' && line[i] == '|'))
+			else if ((line[i - 1] == '(' && line[i] == '-')) {
+				record.push_back(Lexem("(", OpenBrecket, 0));
+				record.push_back(Lexem("0", Constant, 0.0));
+			}
+
+			else if ((i >= line.size() && line[i - 1] == ')') || (line[i - 1] == ')' && line[i] == ')') || (line[i - 1] == ')' && line[i] == '|') || (line[i - 1] == ')' && line[i] == '+') 
+				|| (line[i - 1] == ')' && line[i] == '-') || (line[i - 1] == ')' && line[i] == '/') || (line[i - 1] == ')' && line[i] == '*') || (line[i - 1] == ')' && line[i] == '^'))
 				record.push_back(Lexem(")", ClosedBrecket, 0));
 
-			else if ((i >= line.size() && line[i - 1] == '|') || (line[i - 1] == '|' && line[i] == ')') || (line[i - 1] == '|' && line[i] == '|'))
+			else if ((i >= line.size() && line[i - 1] == '|') || (line[i - 1] == '|' && line[i] == ')') || (line[i - 1] == '|' && line[i] == '|') || (line[i - 1] == '|' && line[i] == '+')
+				|| (line[i - 1] == '|' && line[i] == '-') || (line[i - 1] == '|' && line[i] == '/') || (line[i - 1] == '|' && line[i] == '*') || (line[i - 1] == '|' && line[i] == '^'))
 				record.push_back(Lexem("|", ABS, 0));
 
 			else
