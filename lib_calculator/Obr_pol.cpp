@@ -37,14 +37,12 @@ void building_reverse_Polish(List<Lexem>& usual, List<Lexem>& polish, size_t siz
 		else if(A.type == Operator || A.type == Function)  {
 
 			if (stack.empty() || A.priority <= stack.top().priority) {
-				while (!stack.empty() && stack.top().type != OpenBrecket && A.priority <= stack.top().priority) {
+				while (!stack.empty() && stack.top().type != OpenBrecket && A.priority <= stack.top().priority && stack.top().type != ABS) {
 					polish.push_back(stack.top());
 					stack.pop();
 				}
-				
 				stack.push(A);
 			}
-
 			else
 				stack.push(A);
 		}

@@ -82,7 +82,7 @@ namespace Parser {
 
 	void function_check(int& i, std::string& line, List<Lexem>& record) {
 		std::string new_str = "";
-		while (i < line.size() && (line[i] == 's' || line[i] == 'i' || line[i] == 'n' || line[i] == 'c' || line[i] == 'o' || line[i] == 'l' || line[i] == 'n' || line[i] == 'q' || line[i] == 'r' || line[i] == 't'))
+		while (i < line.size() && (line[i] == 's' || line[i] == 'i' || line[i] == 'n' || line[i] == 'c' || line[i] == 'o' || line[i] == 'l' || line[i] == 'n' || line[i] == 'q' || line[i] == 'r' || line[i] == 't' || line[i] == 'g'))
 			new_str += line[i++];
 
 		if (new_str.size() != 0) {
