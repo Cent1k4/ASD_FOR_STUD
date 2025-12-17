@@ -80,3 +80,52 @@ TEST(test_queue_list, is_empty_test2) {
 	Q.push(3);
 	EXPECT_FALSE(Q.isEmpty());
 }
+
+TEST(test_har_turtle, test1) {
+	List<int> Q;
+	Q.push_back(3);
+	Q.push_back(3);
+	Q.push_back(3);
+	Q.push_back(3);
+	Q.push_back(3);
+	Q.ñreate_ring();
+
+	EXPECT_TRUE(Q.har_turtle());
+}
+
+TEST(test_har_turtle, test2) {
+	List<int> Q;
+	Q.push_back(3);
+	Q.push_back(3);
+	Q.push_back(3);
+	Q.push_back(3);
+	Q.push_back(3);
+	EXPECT_FALSE(Q.har_turtle());
+}
+
+//TEST(test_hasCycleReverse, test1) {
+//	List<int> Q;
+//	Q.push_back(3);
+//	List<int>::Iterator it = Q.begin();
+//	Q.push_back(3);
+//	it++;
+//	Q.push_back(3);
+//	it++;
+//	Q.push_back(3);
+//	Q.push_back(3);
+//	Q.ñreate_ring();
+//	Q.push_front(3);
+//	Q.push_front(3);
+//	Q.push_front(3);
+//	EXPECT_TRUE(Q.hasCycleReverse(), it);
+//}
+//
+//TEST(test_hasCycleReverse, test2) {
+//	List<int> Q;
+//	Q.push_back(3);
+//	Q.push_back(3);
+//	Q.push_back(3);
+//	Q.push_back(3);
+//	Q.push_back(3);
+//	EXPECT_FALSE(Q.hasCycleReverse(), nullptr);
+//}

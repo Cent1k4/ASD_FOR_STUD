@@ -37,6 +37,9 @@ public:
 	void insert(int, const T&);
 	void erase(Node<T>* A);
 	void insert(Node<T>* A, const T&);
+	bool har_turtle();
+	Node<T>* hasCycleReverse();
+	void List<T>::restoreFrom(Node<T>*);
 	const T& operator [](size_t) const;
 	T& operator [](size_t);
 
@@ -50,6 +53,7 @@ public:
 		Iterator& operator =(const Iterator& A);
 		T& operator*();
 		bool operator != (const Iterator& A);
+		bool operator == (const Iterator& A);
 		Iterator operator ++(int);
 		Iterator operator ++();
 	};
@@ -85,6 +89,11 @@ bool List<T>::Iterator::operator != (const Iterator& A) {
 }
 
 template<class T>
+bool List<T>::Iterator::operator == (const Iterator& A) {
+	return _current == A._current;
+}
+
+template<class T>
 typename List<T>::Iterator List<T>::Iterator::operator ++(int) {
 	Iterator tmp(*this);
 	_current = _current->_next;
@@ -96,6 +105,82 @@ typename List<T>::Iterator List<T>::Iterator::operator ++() {
 	_current = _current->_next;
 	return (*this);
 }
+
+template<class T>
+bool List<T>::har_turtle(){
+	if (is_empty()) return false; 
+
+	typename List<T>::Iterator tortoise = begin();
+	typename List<T>::Iterator hare = begin();
+
+	while (hare !=  nullptr) {
+		++tortoise;
+		++hare;
+
+		if (hare == nullptr)
+			break;
+		++hare;
+
+		if (tortoise == hare) 
+			return true;
+		
+	}
+	return false;
+}
+
+//template<class T>
+//Node<T>* List<T>::hasCycleReverse() {
+//	if (!_head || !_head->_next) 
+//return false;
+//
+//	Node<T>* prev = nullptr;
+//	List<int>::Iterator it = begin();
+//	Node<T>* Point = nullptr;
+//	Node<T>* start_reverse = nullptr;
+//
+//	while (it != end()) {
+//		Node<T>* current = it._current;
+//
+//		if (current->_next == prev && prev != nullptr) {
+//			Point = current;
+//			restoreFrom(start_reverse);
+//			return Point;
+//		}
+//
+//		Node<T>* next = current->_next;
+//		current->_next = prev;
+//
+//		if (!start_reverse) 
+//			start_reverse = current;
+//		
+//		if (next) {
+//			it = Iterator(next);
+//			prev = current;
+//		}
+//
+//		else 
+//			break;
+//	}
+//	if (start_reverse) 
+//		restoreFrom(start_reverse);
+//	
+//	return nullptr;
+//}
+//
+//template<class T>
+//void List<T>::restoreFrom(Node<T>* start) {
+//	if (!start) return;
+//
+//	Node<T>* current = start;
+//	Node<T>* prev = nullptr;
+//
+//	while (current) {
+//		Node<T>* temp = current->_next;
+//		current->_next = prev;
+//		prev = current;
+//		current = temp;
+//	}
+//}
 
 template<class T>
 const size_t List<T>::get_count() const noexcept {
